@@ -3,8 +3,8 @@
 curl -s https://www.cloudflare.com/ips-v4 -o /tmp/cf_ips
 curl -s https://www.cloudflare.com/ips-v6 >> /tmp/cf_ips
 
-# Allow all traffic from Cloudflare IPs (no ports restriction)
-for cfip in `cat /tmp/cf_ips`; do ufw allow proto tcp from $cfip comment 'Cloudflare IP'; done
+# Allow traffic from Cloudflare IPs to port 443
+for cfip in `cat /tmp/cf_ips`; do ufw allow from $cfip to any app 'WWW Secure' comment 'Cloudflare IP'; done
 
 ufw reload > /dev/null
 
